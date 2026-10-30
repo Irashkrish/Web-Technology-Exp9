@@ -1,0 +1,78 @@
+use collegeDB
+
+db.createCollection("students")
+
+db.students.insertMany([
+  { rollno: 201, name: "Arun", department: "CSE", year: 3, marks: 85, city: "Chennai" },
+  { rollno: 202, name: "Priya", department: "ECE", year: 3, marks: 92, city: "Coimbatore" },
+  { rollno: 203, name: "Karthik", department: "CSE", year: 2, marks: 78, city: "Salem" },
+  { rollno: 204, name: "Meena", department: "EEE", year: 3, marks: 88, city: "Madurai" },
+  { rollno: 205, name: "Rahul", department: "CSE", year: 4, marks: 67, city: "Trichy" },
+  { rollno: 206, name: "Divya", department: "ECE", year: 2, marks: 81, city: "Chennai" },
+  { rollno: 207, name: "Vijay", department: "IT", year: 3, marks: 75, city: "Erode" },
+  { rollno: 208, name: "Anitha", department: "CSE", year: 3, marks: 95, city: "Coimbatore" },
+  { rollno: 209, name: "Santhosh", department: "EEE", year: 4, marks: 72, city: "Salem" },
+  { rollno: 210, name: "Kavya", department: "ECE", year: 3, marks: 89, city: "Madurai" }
+])
+
+
+db.students.find()
+
+
+db.students.find({ department: "CSE" })
+
+
+db.students.find({ marks: { $gt: 80 } })
+
+
+db.students.find({}, { name: 1, marks: 1, _id: 0 })
+
+
+db.students.find({ department: "CSE", year: 3 })
+
+
+db.students.find({
+  $or: [
+    { department: "CSE" },
+    { department: "ECE" }
+  ]
+})
+
+
+db.students.find().sort({ marks: 1 })
+
+db.students.find().sort({ marks: -1 })
+
+
+db.students.find().sort({ marks: -1 }).limit(3)
+
+
+db.students.countDocuments({ department: "CSE" })
+
+
+db.students.updateOne(
+  { rollno: 201 },
+  { $set: { marks: 90 } }
+)
+
+
+db.students.updateMany(
+  { department: "CSE" },
+  { $set: { status: "Active" } }
+)
+
+
+db.students.deleteOne({ rollno: 210 })
+
+
+db.students.distinct("department")
+
+
+db.students.aggregate([
+  {
+    $group: {
+      _id: "$department",
+      averageMarks: { $avg: "$marks" }
+    }
+  }
+])  
